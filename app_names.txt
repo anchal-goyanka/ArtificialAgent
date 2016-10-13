@@ -1,0 +1,188 @@
+com.snapchat.android social
+com.bredir.boopsie.clp o
+outgoing_call phone
+incoming.call phone
+com.ad.android.ridesystems.ridetraq o
+com.lge.email email
+com.google.android.play.games games
+com.google.android.apps.maps maps
+com.tinyrebel.doctorwholegacy o
+com.sec.android.gallery3d media
+com.google.android.GoogleCamera photo
+com.jbapps.contactpro others
+com.cleanmaster.mguard clean
+com.yuechuan.freedots other
+com.fivehundredpx.viewer other
+com.android.incallui other
+com.amazon.kindle books
+com.overdrive.mobile.android.mediaconsole other
+com.adobe.reader books
+com.kakao.talk.theme.hellobear
+com.htc.calendar calendar
+com.android.htccontacts contacts
+com.mobisystems.office 
+com.pandora.android
+com.lge.QuickClip
+com.snrblabs.grooveip
+com.blockcallsgetcash
+com.android.cellbroadcastreceiver
+com.ubercab travel
+com.poshmark.app
+com.sec.android.app.camera photo
+call_begin phone
+com.android.email email
+com.netflix.mediaclient entertainment
+com.android.deskclock clock
+com.linecorp.b612.android
+com.weplaydots.twodotsandroid games
+com.vlingo.midas
+com.infoscout.receipthog
+com.kyocera.MipErrorDialog
+com.sec.android.app.popupcalculator calculator
+com.rechild.advancedtaskkiller clean
+com.latedroid.juicedefender
+com.matrix.emergency.lite flash
+com.nhl.gc1112.free
+com.timehop
+com.google.android.deskclock clock
+steelersradio.activities
+com.appredeem.apptrailers
+com.birdstep.android.cm
+com.buspgh.apps.app01
+com.trustgo.addetector spam
+com.android.dialer phone
+com.tumblr social
+com.redbox.android.activity
+com.katecca.screenofflock
+com.thetransitapp.droid travel
+com.lge.music music
+com.picsel.tgv.app.smartoffice
+com.mapquest.android.ace
+com.igg.castleclash
+com.android.phone phone
+com.amazon.mShop.android shop
+com.lge.camera photo
+com.sec.android.widgetapp.ap.hero.accuweather weather
+com.imgur.mobile 
+jp.kyocera.camera photo
+com.google.android.apps.docs
+com.motorola.email email
+com.fitbit.FitbitMobile health
+com.infraware.polarisviewer4
+com.infraware.polarisoffice5
+jp.co.johospace.jorte
+com.sec.android.app.clockpackage clock
+com.yahoo.mobile.client.android.mail email
+com.kakao.talk phone
+com.textra
+com.jb.gosms
+edu.apollogrp.android.classroom.activity
+com.jrtstudio.music music
+com.jrdcom.weather weather
+com.iobit.mobilecare
+com.motorola.camera photo
+com.android.packageinstaller instal
+com.android.browser browser
+com.tmobile.vvm.application 
+com.motorola.MotGallery2 media
+com.groupon
+com.android.chrome browser
+com.amtrak.rider travel
+com.shazam.android
+com.android.documentsui
+com.lge.smarttext
+com.facebook.katana social
+com.wolfram.android.alpha
+cmu.troy.androidlogger
+com.itgc.dreammoods.ui
+com.android.contacts contact
+com.pnc.ecommerce.mobile bank
+com.instagram.android social
+com.sec.android.mimage.photoretouching
+com.buytopia.snap
+com.htc.album media
+com.google.android.apps.plus
+com.google.android.youtube browser
+com.saavn.android music
+com.viber.voip phone
+com.htc.android.mail email
+com.groupme.android
+com.imdb.mobile entertainment
+com.google.android.music music
+net.gaggle.mobile.android
+com.sec.android.app.videoplayer entertainment
+com.tvguidemobile entertainment
+com.gameloft.android.ANMP.GloftSIHM games
+com.sec.android.app.voicenote
+com.google.android.talk phone
+com.mobilityware.solitaire games
+com.yahoo.mobile.client.android.yahoo email
+com.fti.ridegenie.passenger travel
+com.yik.yak
+com.whatsapp social
+com.ea.game.tetris2011_na gmaes
+com.alexisblaze.japanese_grammar study
+com.hulu.plus
+com.myfitnesspal.android health
+com.lge.app.richnote note
+com.bigduckgames.flow games
+me.lyft.android
+com.android.calendar calendar
+com.android.settings settings
+com.nowaitapp.consumer
+com.coremobility.app.vnotes notes
+com.softek.ofxclmobile.nasa
+com.google.android.gms
+com.airbnb.android travel
+com.zynga.wwf2.free
+com.android.gallery3d media
+com.weather.Weather weather
+com.nextradioapp.nextradio music
+com.venmo
+com.bodybuilding.mobile health
+com.ridecharge.android.taximagic travel
+com.facebook.orca social
+com.vzw.hss.myverizon
+com.ijinshan.kwifi
+bbc.mobile.news.ww read
+com.hungama.myplay.activity music
+com.lge.clock clock
+com.sec.tetheringprovision wifi
+com.discoverfinancial.mobile bank
+com.yodo1.crossyroad
+com.pnc.ecommerce.mobile.vw.android bank
+gbis.gbandroid
+com.android.vending
+com.bitstrips.bitstrips
+com.Splitwise.SplitwiseMobile bank
+com.android.calculator2 calculator
+com.yinzcam.nfl.steelers
+com.yahoo.mobile.client.android.im email
+com.socialnmobile.dictapps.notepad.color.note note
+kr.core.technology.wifi.hotspot wifi
+com.accuweather.android weather
+com.tencent.mm
+com.infraware.polarisoffice
+com.skype.raider social
+com.lge.ime
+com.lge.shutdownmonitor
+com.etermax.preguntados.lite
+com.pof.android
+com.spotify.music music
+com.sec.android.app.music music
+com.raon.aremotefreegalaxy
+com.episode6.android.nycsubwaymap
+com.lge.voicecommand
+com.pinterest social
+com.todaytix.TodayTix
+com.pdanet
+com.google.android.gm
+flipboard.app
+com.android.providers.downloads.ui
+com.android.mms social
+net.slickdeals.android shop
+com.lge.sizechangable.weather weather
+com.jawbone.up
+org.adblockplus.android spam
+com.clearchannel.iheartradio.controller music
+com.sega.sonicjumpfever

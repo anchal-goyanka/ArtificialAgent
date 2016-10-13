@@ -1,0 +1,6 @@
+20 MOST FREQUENT NOUNS-->
+['alarm', 'google', 'wifi', 'text', 'gmail', 'photo', 'phone', 'call', 'time', 'sites', 'message', 'link', 'i', 'app', 'picture', 'facebook']
+PERSON-->
+['cody', 'brother', 'teacher', 'killer', 'grandma', 'shelley', 'sessions', 'yahoo', 'customer', 'mayor', 'stephen', 'dad', 'roommate', 'tiffany', 'todd', 'george', 'messenger', 'brooke', 'student', 'man', 'boyfriend', 'solomon', 'friend', 'browser', 'turner', 'rider', 'organist', 'employer', 'amazon', 'landlord', 'scott', 'boss', 'drunk', 'gypsy', 'trader', 'calculator', 'participant', 'doctor', 'toaster', 'speaker', 'person', 'mother', 'ross', 'mother-in-law', 'tracker', 'sister', 'diner', 'neighbor', 'wife', 'jenny', 'mellon', 'oracle']
+LOCATION-->
+['port', 'cell', 'county', 'destination', 'asheville', 'campsite', 'end', 'id', 'farm', 'spot', 'lab', 'outline', 'trail', 'side', 'ohio', 'district', 'place', 'waterfront', 'city', 'pittsburgh', 'park', 'pennsylvania', 'track', 'area', 'opening', 'interface', 'workplace', 'baltimore', 'direction', 'site', 'center', 'front', 'location', 'crack', 'home', 'oakland', 'post', 'philadelphia', 'campus', 'chester', 'reservation']
