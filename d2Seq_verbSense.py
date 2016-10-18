@@ -214,7 +214,7 @@ for i in range(K):
 for i in range(len(vec)):
     ans_list[clusterer.classify(vec[i])].append([verbs_with_sense[i], verb_tasks_dict[verbs_with_sense[i]]])
 
-
+'''
 for i in range(len(ans_list)):
     print 'BEGINNIG OF A NEW CLUSTER'
     print ' '
@@ -223,10 +223,18 @@ for i in range(len(ans_list)):
         print ''
         print ans_list[i][j]
 
- 
-tfile = open('verb_clusters_25_no_empty.txt', 'w')
+'''
+tfile = open('verb_sense.txt', 'w')
 for item in ans_list:
-  print>>tfile, item
+  print>>tfile, ' ' 
+  print>>tfile, 'BEGINNING OF A NEW VERB SENSE'
+  temp = []
+  for j in item:
+    print>>tfile, '  '
+    print>>tfile,  'nextttttttttttttttttt'
+    print>>tfile, j
+    temp.append(j[0])
+  print>>tfile, temp 
 '''
 #indexing each word within outer list
 verb_index_dict = {}
