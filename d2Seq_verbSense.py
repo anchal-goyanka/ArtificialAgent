@@ -33,12 +33,6 @@ apps_id_dict = {}#dict with keys as appnames and values as new app ids
 for i in range(len(apps_id_list)):
     apps_id_dict[apps_id_list[i]] = i+1 #app ids starting from 1
 
-#storing all app names in a file
-#thefile = open('app_names.txt', 'w')
-#for item in apps_id_dict.keys():
-  #print>>thefile, item
-
-
 for i in range(len(data_list)):
     for j in range(len(data_list[i][0])):
         data_list[i][0][j] = apps_id_dict[data_list[i][0][j]]
@@ -51,6 +45,8 @@ nouns= []
 #task_verb_dict = {}
 verbs_with_sense = []
 verb_tasks_dict = {}
+#a lsit of list of tokens used to represent a task description
+task2tokens = []
 #extracting nouns and verbs from each task description
 for i in data_list:
     temp =[]
@@ -58,14 +54,14 @@ for i in data_list:
     tokens = nltk.word_tokenize(description)
     tagged = nltk.pos_tag(tokens)
     entities = nltk.chunk.ne_chunk(tagged)
-    #print entities
     for j in range(len(entities)):
         if type(entities[j]) == nltk.Tree:
-            #print entities, 'entities main', entities[j], 'is a subtree'
             if entities[j].label() in ['PERSON']:
                 per.append((entities.leaves())[j])
+                temp.append((entities.leaves())[j])
             elif entities[j].label() in ['LOCATION']:
                 loc.append((entities.leaves())[j])
+                temp.append((entities.leaves())[j])
         else:
             if entities[j][1][0] == 'V':
                 #finding most suitable word sense
@@ -73,6 +69,7 @@ for i in data_list:
                 if syn is not None:
                     name = syn.name()
                     verbs_with_sense.append(str(name))
+                    temp.append(str(name))
                     if str(name) not in verb_tasks_dict.keys():
                         verb_tasks_dict[str(name)] = []
                         verb_tasks_dict[str(name)].append(description)
@@ -81,59 +78,47 @@ for i in data_list:
                 verbs.append(entities[j][0])
             elif entities[j][1][0] == 'N':
                 nouns.append(entities[j][0])
- 
+                temp.append(entities[j][0])
+    task2tokens.append(temp)
 set_nouns = set(nouns)
 set_verbs = set(verbs)
-print len(set_verbs), 'len of set of original verbs'#526
+#print len(set_verbs), 'len of set of original verbs'#526
 nouns_once = list(set_nouns)
 verbs_once = list(set_verbs)
 verbs_with_sense = list(set(verbs_with_sense))
-print len(verbs_with_sense), 'len of new verbs with sense'#469
-print verbs_with_sense[0]
-print verbs_with_sense[3]
+#print len(verbs_with_sense), 'len of new verbs with sense'#469
 
-'''
-new_list = []
-for i in range(len(verbs_with_sense)):
-    verbs_with_sense_str.append(str(verbs_with_sense[i]))
-for i in verbs_with_sense_str:
-    if i in new_list:
-        continue
-    else:
-        new_list.append(i)
-#print len(new_list)
-#print new_list
-'''
-'''
 #list of all nouns present in wordnet database
 all_lemma_word = []
 for synset in list(wn.all_synsets('n')):
     word = synset.name().split('.')[0]
     all_lemma_word.append(word)
-
+'''
 #list of all verbs present in wordnet database
 all_lemma_verbs = []
 for synset in list(wn.all_synsets('v')):
     word = synset.name().split('.')[0]
     all_lemma_verbs.append(word)
 '''
-'''
+diff_nouns = []
 other_nouns = []
 for i in nouns_once:
-    s = i + '.' + 'n' + '.' + '01'
+    normalized_noun = WordNetLemmatizer().lemmatize(i,'n')
+    s = normalized_noun + '.' + 'n' + '.' + '01'
     loc_ = 'location.n.01'
     per_ = 'person.n.01'
-    if i not in all_lemma_word:
+    if normalized_noun not in all_lemma_word:
         other_nouns.append(i)
         continue
-    #print 's in lemma word'
     location_hypernym =  wn.synset(loc_).lowest_common_hypernyms(wn.synset(s))
     person_hypernym =  wn.synset(per_).lowest_common_hypernyms(wn.synset(s))
     if location_hypernym[0] == wn.synset(loc_):
         loc.append(i)
     elif person_hypernym[0] == wn.synset(per_):
         per.append(i)
-
+    else:
+        diff_nouns.append(i)
+        
 #creating a dictionary with keys as nouns and values as their frequency in data
 noun_freq_dict = {}
 for noun in nouns:
@@ -141,10 +126,11 @@ for noun in nouns:
         noun_freq_dict[noun] = 1
     else:
         noun_freq_dict[noun]+=1
-#print noun_freq_dict
+# 901 print len(noun_freq_dict.keys())
+# 901 print len(per) + len(loc) + len(other_nouns) + len(diff_nouns)
 #sorts keys in a dict based on values
-most_freq_nouns = sorted(noun_freq_dict, key=noun_freq_dict.get)[-20:-1]
-#print most_freq_nouns, '20'
+#To do: Find a statistical number instead of 20 based on the nouns vocabulary
+most_freq_nouns = sorted(noun_freq_dict, key=noun_freq_dict.get)[-21:-1]
 final_nouns = []
 for i in most_freq_nouns:
     if i in loc:
@@ -153,55 +139,27 @@ for i in most_freq_nouns:
         continue
     else:
         final_nouns.append(i)
-#print per, loc, final_nouns
+most_freq_nouns = final_nouns
+
 #tfile = open('nouns.txt', 'w')
-#print>>tfile, '20 MOST FREQUENT NOUNS-->'
-#print>>tfile, final_nouns
+#print>>tfile, 'MOST FREQUENT NOUNS-->'
+#print>>tfile, most_freq_nouns
 #print>>tfile, 'PERSON-->'
 #print>>tfile, per
 #print>>tfile, 'LOCATION-->'
 #print>>tfile, loc
-'''
-'''
-#extracting all words from set of appnames in the data, ex: games.mm --> [games, mm]
-apps_word_list =[]
-for i in apps_id_list:
-    for j in i.split('.'):
-        if j not in apps_word_list:
-            apps_word_list.append(j)
-#print apps_word_list
-common_list = []
-print len(nouns), 'lenof nouns'
-for i in nouns:
-    if i in apps_word_list:
-        common_list.append(i)
-final_noun_list = []
-for i in common_list:
-    if i in last_20:
-        final_noun_list.append(i)
+#print>>tfile, 'OTHER NOUNS(NOT USED)-->'
+#print>>tfile, other_nouns
+#print>>tfile, 'NOUN FREQUENCY DICT-->'
+#print>>tfile, noun_freq_dict
 
-
-less_verbs = []
-verbs_not_in_wordnet = []
-#keeping only those verbs present in wordnet database
-for i in verbs_once:
-    #bringing verb in its base form
-    lemma_word = WordNetLemmatizer().lemmatize(i,'v')
-    if lemma_word in all_lemma_verbs:
-        less_verbs.append(i)
-    else:
-        verbs_not_in_wordnet.append(i)
-'''
 vectors = [] #list of list of path simirity of a verb with all other verbs
 for verb in verbs_with_sense:
     temp_vector = []
-    #a = WordNetLemmatizer().lemmatize(verb,'v') + '.v' + '.01'
     for word in verbs_with_sense:
-        #b = WordNetLemmatizer().lemmatize(word,'v') + '.v' + '.01'
         temp_vector.append(wn.synset(verb).path_similarity(wn.synset(word)))
     vectors.append(temp_vector)
 K = 25
-print len(vectors), 'len of vecs'
 vec = [array(f) for f in vectors]
 clusterer = cluster.KMeansClusterer(K, euclidean_distance, avoid_empty_clusters=True)
 clusterer.cluster(vec, True)
@@ -210,7 +168,6 @@ for i in range(K):
     ans_list.append([])
     
 # classify a new vector
-#print(clusterer.classify(vec[2]))
 for i in range(len(vec)):
     ans_list[clusterer.classify(vec[i])].append([verbs_with_sense[i], verb_tasks_dict[verbs_with_sense[i]]])
 
@@ -223,8 +180,7 @@ for i in range(len(ans_list)):
         print ''
         print ans_list[i][j]
 
-'''
-tfile = open('verb_sense.txt', 'w')
+tfile = open('verb_sense.txt1', 'w')
 for item in ans_list:
   print>>tfile, ' ' 
   print>>tfile, 'BEGINNING OF A NEW VERB SENSE'
@@ -232,24 +188,25 @@ for item in ans_list:
   for j in item:
     print>>tfile, '  '
     print>>tfile,  'nextttttttttttttttttt'
-    print>>tfile, j
+    #print>>tfile, j
     temp.append(j[0])
   print>>tfile, temp 
 '''
+
 #indexing each word within outer list
 verb_index_dict = {}
 for i in range(len(ans_list)):
-    for verb in ans_list[i]:
-        verb_index_dict[verb] = i
+    for pair in ans_list[i]:
+        verb_index_dict[pair[0]] = i
 
-input_size = K + 2 + len(final_nouns) # per, loc, last_20
+input_size = K + 2 + len(final_nouns) # per, loc, last_20 - per - loc
 normalized_tasks = []
 
 for j in range(len(data_list)):
-    normalized_tasks.append([[0 for i in range(input_size)], data_list[j][1],[]])
+    normalized_tasks.append([[0 for i in range(input_size)], data_list[j][1], []])
 
 for i in range(len(data_list)):
-    tokens = nltk.word_tokenize(normalized_tasks[i][1])
+    tokens = task2tokens[i]
     for j in tokens:
         if j in per:
             normalized_tasks[i][2].append(j)
@@ -264,9 +221,11 @@ for i in range(len(data_list)):
             normalized_tasks[i][2].append(j)
             normalized_tasks[i][0][verb_index_dict[j]] += 1
 
-tfile = open('normalized_tasks2.txt', 'w')
+tfile = open('normalized_tasks4.txt', 'w')
 for item in normalized_tasks:
+  print>>tfile, ' '
   print>>tfile, item
+
 K_ = 20
 array_list = []
 for i in range(len(data_list)):
@@ -278,8 +237,8 @@ for i in range(K_):
     task_clusters.append([])
 for i in range(len(array_list)):
     task_clusters[clusterer.classify(array_list[i])].append([data_list[i][1]])
-tfile = open('task_clusters2.txt', 'w')
+tfile = open('task_clusters4.txt', 'w')
 for item in task_clusters:
   print>>tfile, item
   print>>tfile, ' '
-'''
+

@@ -168,11 +168,12 @@ for verb in less_verbs:
     vectors.append(temp_vector)
 K = 25
 vec = [array(f) for f in vectors]
-clusterer = cluster.KMeansClusterer(K, euclidean_distance) #avoid_empty_clusters=True)
+clusterer = cluster.KMeansClusterer(K, euclidean_distance, avoid_empty_clusters=True)
 clusterer.cluster(vec, True)
 ans_list = []
 for i in range(K):
     ans_list.append([])
+    
 # classify a new vector
 #print(clusterer.classify(vec[2]))
 for i in range(len(vec)):
@@ -181,22 +182,24 @@ for i in range(len(vec)):
 #for i in range(len(ans_list)):
 #    print ans_list[i]
     
-tfile = open('verb_clusters_25_no_empty.txt', 'w')
-for item in ans_list:
-  print>>tfile, item
+#tfile = open('verb_clusters_25_no_empty.txt', 'w')
+#for item in ans_list:
+#  print>>tfile, item
+
 #indexing each word within outer list
 verb_index_dict = {}
 for i in range(len(ans_list)):
     for verb in ans_list[i]:
         verb_index_dict[verb] = i
+
 input_size = K + 2 + len(final_nouns) # per, loc, last_20
 normalized_tasks = []
-a = [0 for i in range(input_size)]
-for i in range(len(data_list)):
-    normalized_tasks.append([a, data_list[i][1])
+
+for j in range(len(data_list)):
+    normalized_tasks.append([[0 for i in range(input_size)], data_list[j][1],[]])
+
 for i in range(len(data_list)):
     tokens = nltk.word_tokenize(normalized_tasks[i][1])
-    normalized_tasks[i].append([])
     for j in tokens:
         if j in per:
             normalized_tasks[i][2].append(j)
@@ -210,7 +213,22 @@ for i in range(len(data_list)):
         elif j in verb_index_dict.keys():
             normalized_tasks[i][2].append(j)
             normalized_tasks[i][0][verb_index_dict[j]] += 1
-tfile = open('normalized_tasks.txt', 'w')
+
+tfile = open('normalized_tasks2.txt', 'w')
 for item in normalized_tasks:
   print>>tfile, item
-            
+K_ = 20
+array_list = []
+for i in range(len(data_list)):
+    array_list.append(array(normalized_tasks[i][0]))
+clusterer = cluster.KMeansClusterer(K_, euclidean_distance, avoid_empty_clusters=True)
+clusterer.cluster(array_list, True)
+task_clusters = []
+for i in range(K_):
+    task_clusters.append([])
+for i in range(len(array_list)):
+    task_clusters[clusterer.classify(array_list[i])].append([data_list[i][1]])
+tfile = open('task_clusters2.txt', 'w')
+for item in task_clusters:
+  print>>tfile, item
+  print>>tfile, ' '
