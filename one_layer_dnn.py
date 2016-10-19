@@ -1,3 +1,6 @@
+import numpy as np
+import re
+import tensorflow as tf
 from nltk import cluster
 from nltk.cluster import euclidean_distance
 from numpy import array
@@ -221,23 +224,79 @@ for i in range(len(data_list)):
             normalized_tasks[i][2].append(j)
             normalized_tasks[i][0][verb_index_dict[j]] += 1
 
-tfile = open('normalized_tasks4.txt', 'w')
-for item in normalized_tasks:
-  print>>tfile, ' '
-  print>>tfile, item
+#tfile = open('normalized_tasks4.txt', 'w')
+#for item in normalized_tasks:
+  #print>>tfile, ' '
+  #print>>tfile, item
 
 K_ = 20
-array_list = []
+input_array = []
+output_array = []   
 for i in range(len(data_list)):
-    array_list.append(array(normalized_tasks[i][0]))
+   input_array.append(array(normalized_tasks[i][0])) 
+   output_array.append([0 for i in range(K_)])  
 clusterer = cluster.KMeansClusterer(K_, euclidean_distance, avoid_empty_clusters=True)
-clusterer.cluster(array_list, True)
+clusterer.cluster(input_array, True)
 task_clusters = []
 for i in range(K_):
     task_clusters.append([])
-for i in range(len(array_list)):
-    task_clusters[clusterer.classify(array_list[i])].append([data_list[i][1]])
-tfile = open('task_clusters4.txt', 'w')
-for item in task_clusters:
-  print>>tfile, item
-  print>>tfile, ' '
+for i in range(len(input_array)):
+    task_clusters[clusterer.classify(input_array[i])].append([data_list[i][1]])
+    output_array[i][clusterer.classify(input_array[i])] = 1
+output_array = np.array(output_array, dtype=np.float32)
+input_array = np.array(input_array)
+#tfile = open('task_clusters4.txt', 'w')
+#for item in task_clusters:
+  #print>>tfile, item
+  #print>>tfile, ' '
+
+num_hidden_nodes = 10
+
+graph = tf.Graph()
+with graph.as_default():
+
+  tf_train_dataset = tf.constant(input_array[:900, :],dtype=np.float32)
+  tf_train_labels = tf.constant(output_array[:900], dtype=np.float32)
+  tf_test_dataset = tf.constant(input_array[900:, :], dtype=np.float32)
+  
+  
+  # Variables.
+  weights1 = tf.Variable(
+    tf.truncated_normal([input_size, num_hidden_nodes]))
+  biases1 = tf.Variable(tf.zeros([num_hidden_nodes]))
+  weights2 = tf.Variable(
+    tf.truncated_normal([num_hidden_nodes, K_]))
+  biases2 = tf.Variable(tf.zeros([K_]))
+  
+  # Training computation.
+  lay1_train = tf.nn.relu(tf.matmul(tf_train_dataset, weights1) + biases1)
+  logits = tf.matmul(lay1_train, weights2) + biases2
+  loss = tf.reduce_mean(
+    tf.nn.softmax_cross_entropy_with_logits(logits, tf_train_labels))
+  
+  # Optimizer.
+  optimizer = tf.train.GradientDescentOptimizer(0.5).minimize(loss)
+  
+  # Predictions for the training, validation, and test data.
+  train_prediction = tf.nn.softmax(logits)
+  #lay1_valid = tf.nn.relu(tf.matmul(tf_valid_dataset, weights1) + biases1)
+  #valid_prediction = tf.nn.softmax(tf.matmul(lay1_valid, weights2) + biases2)
+  lay1_test = tf.nn.relu(tf.matmul(tf_test_dataset, weights1) + biases1)
+  test_prediction = tf.nn.softmax(tf.matmul(lay1_test, weights2) + biases2)
+
+num_steps = 100
+def accuracy(predictions, labels):
+  return (100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1))
+          / predictions.shape[0])
+
+with tf.Session(graph=graph) as session:
+  tf.initialize_all_variables().run()
+  print("Initialized")
+  for step in range(num_steps):
+
+    _, l, predictions = session.run([optimizer, loss, train_prediction])
+    if (step % 50 == 0):
+      print("Minibatch loss at step %d: %f" % (step, l))
+      print('Training accuracy: %.1f%%' % accuracy(
+        predictions, output_array[:900, :]))
+  print("Test accuracy: %.1f%%" % accuracy(test_prediction.eval(), output_array[900:, :]))
